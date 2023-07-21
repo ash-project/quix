@@ -10,6 +10,9 @@ import Config
 config :quix,
   ecto_repos: [Quix.Repo]
 
+config :quix,
+  ash_apis: []
+
 # Configures the endpoint
 config :quix, QuixWeb.Endpoint,
   url: [host: "localhost"],
@@ -19,6 +22,8 @@ config :quix, QuixWeb.Endpoint,
   ],
   pubsub_server: Quix.PubSub,
   live_view: [signing_salt: "W+l3nlmI"]
+
+config :ash, :use_all_identities_in_manage_relationship?, false
 
 # Configures the mailer
 #

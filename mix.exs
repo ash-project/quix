@@ -32,6 +32,13 @@ defmodule Quix.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      # Ash
+      {:ash, "~> 2.13"},
+      {:ash_postgres, "~> 1.3"},
+      {:ash_json_api, "~> 0.32"},
+      {:ash_graphql, "~> 0.25"},
+      {:ash_phoenix, "~> 1.2"},
+      # Phoenix Defaults
       {:phoenix, "~> 1.7.7"},
       {:phoenix_ecto, "~> 4.4"},
       {:ecto_sql, "~> 3.10"},
