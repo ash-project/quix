@@ -11,7 +11,7 @@ config :quix,
   ecto_repos: [Quix.Repo]
 
 config :quix,
-  ash_apis: []
+  ash_apis: [Quix]
 
 # Configures the endpoint
 config :quix, QuixWeb.Endpoint,

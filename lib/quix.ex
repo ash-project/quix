@@ -1,9 +1,10 @@
 defmodule Quix do
-  @moduledoc """
-  Quix keeps the contexts that define your domain
-  and business logic.
+  use Ash.Api
 
-  Contexts are also responsible for managing your data, regardless
-  if it comes from the database, an external API or others.
-  """
+  resources do
+    resource Quix.Quiz
+    resource Quix.Question
+    resource Quix.QuizAttempt
+    resource Quix.Guess
+  end
 end
