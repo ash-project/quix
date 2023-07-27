@@ -4,7 +4,35 @@ defmodule Quix.Quiz do
 
   actions do
     default_accept [:title]
-    defaults [:create, :update, :read, :destroy]
+    defaults [:create, :read, :destroy]
+
+    update :update do
+      primary? true
+      argument :questions, {:array, :map}
+
+      change fn changeset, _ ->
+        if changeset.arguments[:questions] do
+          questions =
+            changeset.arguments.questions
+            |> Stream.with_index()
+            |> Enum.map(fn {input, index} ->
+              Map.put(input, :order, index)
+            end)
+
+          Ash.Changeset.set_argument(changeset, :questions, questions)
+        else
+          changeset
+        end
+      end
+
+      change manage_relationship(:questions, type: :direct_control)
+    end
+
+    update :publish do
+      accept []
+      change Quix.Quiz.Changes.Publish
+      change set_attribute(:state, :published)
+    end
   end
 
   postgres do
@@ -18,6 +46,10 @@ defmodule Quix.Quiz do
     attribute :title, :string do
       allow_nil? false
     end
+
+    attribute :state, :atom do
+      constraints one_of: [:published, :pending]
+    end
   end
 
   code_interface do
@@ -27,6 +59,7 @@ defmodule Quix.Quiz do
     define :by_id, get_by: [:id], action: :read
     define :update
     define :destroy
+    define :publish
   end
 
   relationships do
