@@ -4,6 +4,7 @@ defmodule Quix.Question do
 
   actions do
     defaults [:create, :read, :update, :destroy]
+    default_accept [:order, :text, :options, :correct_option]
   end
 
   postgres do
@@ -21,11 +22,22 @@ defmodule Quix.Question do
     attribute :order, :integer do
       allow_nil? false
     end
+
+    attribute :options, {:array, Quix.Question.Types.Option} do
+      allow_nil? false
+      default []
+    end
+
+    attribute :correct_option, :string
   end
 
   relationships do
     belongs_to :quiz, Quix.Quiz do
       allow_nil? false
     end
+  end
+
+  validations do
+    validate Quix.Question.Validations.ValidateCorrectOption
   end
 end
