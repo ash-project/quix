@@ -7,6 +7,7 @@ defmodule Quix.QuizAttempt do
 
     create :start do
       accept [:quiz_id]
+      change relate_actor(:user)
     end
 
     update :finish do
@@ -45,6 +46,10 @@ defmodule Quix.QuizAttempt do
   postgres do
     table "quiz_attempts"
     repo Quix.Repo
+
+    references do
+      reference :quiz, on_delete: :delete, on_update: :update
+    end
   end
 
   attributes do
@@ -53,6 +58,8 @@ defmodule Quix.QuizAttempt do
     attribute :finished, :boolean do
       default false
     end
+
+    timestamps()
   end
 
   calculations do
@@ -80,6 +87,11 @@ defmodule Quix.QuizAttempt do
     end
 
     has_many :guesses, Quix.Guess
+
+    belongs_to :user, Quix.Accounts.User do
+      api Quix.Accounts
+      allow_nil? false
+    end
   end
 
   code_interface do

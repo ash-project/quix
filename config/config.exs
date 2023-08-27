@@ -11,7 +11,15 @@ config :quix,
   ecto_repos: [Quix.Repo]
 
 config :quix,
-  ash_apis: [Quix]
+  ash_apis: [Quix, Quix.Accounts]
+
+config :mime, :types, %{
+  "application/vnd.api+json" => ["json"]
+}
+
+config :mime, :extensions, %{
+  "json" => "application/vnd.api+json"
+}
 
 # Configures the endpoint
 config :quix, QuixWeb.Endpoint,

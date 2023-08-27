@@ -10,6 +10,10 @@ defmodule Quix.Question do
   postgres do
     table "questions"
     repo Quix.Repo
+
+    references do
+      reference :quiz, on_delete: :delete, on_update: :update
+    end
   end
 
   attributes do

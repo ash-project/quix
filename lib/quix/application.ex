@@ -17,9 +17,10 @@ defmodule Quix.Application do
       # Start Finch
       {Finch, name: Quix.Finch},
       # Start the Endpoint (http/https)
-      QuixWeb.Endpoint
+      QuixWeb.Endpoint,
       # Start a worker by calling: Quix.Worker.start_link(arg)
       # {Quix.Worker, arg}
+      {AshAuthentication.Supervisor, otp_app: :quix}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

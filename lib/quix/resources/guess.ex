@@ -5,25 +5,30 @@ defmodule Quix.Guess do
   postgres do
     table "guesses"
     repo Quix.Repo
+
+    references do
+      reference :quiz_attempt, on_delete: :delete, on_update: :update
+      reference :question, on_delete: :delete, on_update: :update
+    end
   end
 
   actions do
     defaults [:read]
-    
+
     create :upsert do
       accept [:quiz_attempt_id, :question_id, :option]
       upsert? true
       upsert_identity :unique_question_attempt
     end
   end
-  
+
   identities do
     identity :unique_question_attempt, [:quiz_attempt_id, :question_id]
   end
 
   attributes do
     uuid_primary_key :id
-    
+
     attribute :option, :string do
       allow_nil? false
     end

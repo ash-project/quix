@@ -11,35 +11,12 @@
       "primary_key?": true
     },
     {
-      "default": "nil",
+      "default": "false",
       "size": null,
-      "type": "text",
-      "source": "text",
+      "type": "boolean",
+      "source": "finished",
       "references": null,
-      "allow_nil?": false,
-      "generated?": false,
-      "primary_key?": false
-    },
-    {
-      "default": "nil",
-      "size": null,
-      "type": "bigint",
-      "source": "order",
-      "references": null,
-      "allow_nil?": false,
-      "generated?": false,
-      "primary_key?": false
-    },
-    {
-      "default": "[]",
-      "size": null,
-      "type": [
-        "array",
-        "map"
-      ],
-      "source": "options",
-      "references": null,
-      "allow_nil?": false,
+      "allow_nil?": true,
       "generated?": false,
       "primary_key?": false
     },
@@ -49,10 +26,10 @@
       "type": "uuid",
       "source": "quiz_id",
       "references": {
-        "name": "questions_quiz_id_fkey",
+        "name": "quiz_attempts_quiz_id_fkey",
         "table": "quizzes",
         "schema": "public",
-        "on_delete": null,
+        "on_delete": "delete",
         "primary_key?": true,
         "destination_attribute": "id",
         "multitenancy": {
@@ -61,7 +38,7 @@
           "strategy": null
         },
         "deferrable": false,
-        "on_update": null,
+        "on_update": "update",
         "destination_attribute_default": null,
         "destination_attribute_generated": null
       },
@@ -70,8 +47,8 @@
       "primary_key?": false
     }
   ],
-  "table": "questions",
-  "hash": "BAE988E3E4E572A2C284A8F04444ED352365C941975DD105FFE2B04A7C2DEDDA",
+  "table": "quiz_attempts",
+  "hash": "5F1C541965055BB6EA1BDC94E56471ADD3CBF9B53D871C0361D08294F4261897",
   "repo": "Elixir.Quix.Repo",
   "identities": [],
   "schema": null,

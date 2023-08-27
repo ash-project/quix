@@ -11,33 +11,30 @@
       "primary_key?": true
     },
     {
-      "default": "nil",
+      "default": "false",
       "size": null,
-      "type": "text",
-      "source": "text",
+      "type": "boolean",
+      "source": "finished",
+      "references": null,
+      "allow_nil?": true,
+      "generated?": false,
+      "primary_key?": false
+    },
+    {
+      "default": "fragment(\"now()\")",
+      "size": null,
+      "type": "utc_datetime_usec",
+      "source": "inserted_at",
       "references": null,
       "allow_nil?": false,
       "generated?": false,
       "primary_key?": false
     },
     {
-      "default": "nil",
+      "default": "fragment(\"now()\")",
       "size": null,
-      "type": "bigint",
-      "source": "order",
-      "references": null,
-      "allow_nil?": false,
-      "generated?": false,
-      "primary_key?": false
-    },
-    {
-      "default": "[]",
-      "size": null,
-      "type": [
-        "array",
-        "map"
-      ],
-      "source": "options",
+      "type": "utc_datetime_usec",
+      "source": "updated_at",
       "references": null,
       "allow_nil?": false,
       "generated?": false,
@@ -49,36 +46,62 @@
       "type": "uuid",
       "source": "quiz_id",
       "references": {
-        "name": "questions_quiz_id_fkey",
+        "name": "quiz_attempts_quiz_id_fkey",
         "table": "quizzes",
         "schema": "public",
-        "on_delete": null,
+        "on_delete": "delete",
         "primary_key?": true,
         "destination_attribute": "id",
         "multitenancy": {
           "global": null,
-          "attribute": null,
-          "strategy": null
+          "strategy": null,
+          "attribute": null
         },
         "deferrable": false,
-        "on_update": null,
+        "on_update": "update",
         "destination_attribute_default": null,
         "destination_attribute_generated": null
       },
       "allow_nil?": false,
       "generated?": false,
       "primary_key?": false
+    },
+    {
+      "default": "nil",
+      "size": null,
+      "type": "uuid",
+      "source": "user_id",
+      "references": {
+        "name": "quiz_attempts_user_id_fkey",
+        "table": "users",
+        "schema": "public",
+        "on_delete": null,
+        "primary_key?": true,
+        "destination_attribute": "id",
+        "multitenancy": {
+          "global": null,
+          "strategy": null,
+          "attribute": null
+        },
+        "deferrable": false,
+        "on_update": null,
+        "destination_attribute_default": null,
+        "destination_attribute_generated": null
+      },
+      "allow_nil?": true,
+      "generated?": false,
+      "primary_key?": false
     }
   ],
-  "table": "questions",
-  "hash": "BAE988E3E4E572A2C284A8F04444ED352365C941975DD105FFE2B04A7C2DEDDA",
+  "table": "quiz_attempts",
+  "hash": "E44994FFC8E7F457C9E7A408944CB37E5B7033E1CDC01E2C9EC16AF8873D9969",
   "repo": "Elixir.Quix.Repo",
   "identities": [],
   "schema": null,
   "multitenancy": {
     "global": null,
-    "attribute": null,
-    "strategy": null
+    "strategy": null,
+    "attribute": null
   },
   "base_filter": null,
   "check_constraints": [],

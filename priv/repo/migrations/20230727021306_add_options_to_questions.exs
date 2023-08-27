@@ -9,7 +9,7 @@ defmodule Quix.Repo.Migrations.AddOptionsToQuestions do
 
   def up do
     alter table(:questions) do
-      add :options, {:array, :map}, null: false
+      add :options, {:array, :map}, null: false, default: []
     end
   end
 

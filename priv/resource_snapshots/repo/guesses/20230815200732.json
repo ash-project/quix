@@ -14,30 +14,7 @@
       "default": "nil",
       "size": null,
       "type": "text",
-      "source": "text",
-      "references": null,
-      "allow_nil?": false,
-      "generated?": false,
-      "primary_key?": false
-    },
-    {
-      "default": "nil",
-      "size": null,
-      "type": "bigint",
-      "source": "order",
-      "references": null,
-      "allow_nil?": false,
-      "generated?": false,
-      "primary_key?": false
-    },
-    {
-      "default": "[]",
-      "size": null,
-      "type": [
-        "array",
-        "map"
-      ],
-      "source": "options",
+      "source": "option",
       "references": null,
       "allow_nil?": false,
       "generated?": false,
@@ -47,12 +24,12 @@
       "default": "nil",
       "size": null,
       "type": "uuid",
-      "source": "quiz_id",
+      "source": "quiz_attempt_id",
       "references": {
-        "name": "questions_quiz_id_fkey",
-        "table": "quizzes",
+        "name": "guesses_quiz_attempt_id_fkey",
+        "table": "quiz_attempts",
         "schema": "public",
-        "on_delete": null,
+        "on_delete": "delete",
         "primary_key?": true,
         "destination_attribute": "id",
         "multitenancy": {
@@ -61,7 +38,33 @@
           "strategy": null
         },
         "deferrable": false,
-        "on_update": null,
+        "on_update": "update",
+        "destination_attribute_default": null,
+        "destination_attribute_generated": null
+      },
+      "allow_nil?": false,
+      "generated?": false,
+      "primary_key?": false
+    },
+    {
+      "default": "nil",
+      "size": null,
+      "type": "uuid",
+      "source": "question_id",
+      "references": {
+        "name": "guesses_question_id_fkey",
+        "table": "questions",
+        "schema": "public",
+        "on_delete": "delete",
+        "primary_key?": true,
+        "destination_attribute": "id",
+        "multitenancy": {
+          "global": null,
+          "attribute": null,
+          "strategy": null
+        },
+        "deferrable": false,
+        "on_update": "update",
         "destination_attribute_default": null,
         "destination_attribute_generated": null
       },
@@ -70,10 +73,20 @@
       "primary_key?": false
     }
   ],
-  "table": "questions",
-  "hash": "BAE988E3E4E572A2C284A8F04444ED352365C941975DD105FFE2B04A7C2DEDDA",
+  "table": "guesses",
+  "hash": "F6A346486618B92B2D3BC9967017579966A308805EEE44064FCB8C8265308F57",
   "repo": "Elixir.Quix.Repo",
-  "identities": [],
+  "identities": [
+    {
+      "name": "unique_question_attempt",
+      "keys": [
+        "quiz_attempt_id",
+        "question_id"
+      ],
+      "index_name": "guesses_unique_question_attempt_index",
+      "base_filter": null
+    }
+  ],
   "schema": null,
   "multitenancy": {
     "global": null,

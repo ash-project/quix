@@ -37,7 +37,11 @@ defmodule Quix.MixProject do
       {:ash_postgres, "~> 1.3"},
       {:ash_json_api, "~> 0.32"},
       {:ash_graphql, "~> 0.25"},
+      {:open_api_spex, "~> 3.16"},
       {:ash_phoenix, "~> 1.2"},
+      {:ash_authentication, "~> 3.11"},
+      {:ash_authentication_phoenix, "~> 1.7"},
+      {:ash_admin, "~> 0.9.4"},
       # Phoenix Defaults
       {:phoenix, "~> 1.7.7"},
       {:phoenix_ecto, "~> 4.4"},
