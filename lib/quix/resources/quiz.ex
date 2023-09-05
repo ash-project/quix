@@ -1,7 +1,20 @@
 defmodule Quix.Quiz do
   use Ash.Resource,
     data_layer: AshPostgres.DataLayer,
+    authorizers: [Ash.Policy.Authorizer],
     extensions: [AshGraphql.Resource, AshJsonApi.Resource]
+
+  policies do
+    policy action_type(:read) do
+      authorize_if expr(user_id == ^actor(:id))
+    end
+  end
+
+  field_policies do
+    field_policy :text, always() do
+      authorize_if actor_attribute_equals(:admin, true)
+    end
+  end
 
   resource do
     description "Some description of the resource"
@@ -31,7 +44,12 @@ defmodule Quix.Quiz do
 
   actions do
     default_accept [:title]
-    defaults [:create, :destroy]
+    defaults [:destroy]
+
+    create :create do
+      primary? true
+      change relate_actor(:user)
+    end
 
     read :read do
       description "Get a list of quizzes"
@@ -96,5 +114,10 @@ defmodule Quix.Quiz do
 
   relationships do
     has_many :questions, Quix.Question
+
+    belongs_to :user, Quix.Accounts.User do
+      allow_nil? false
+      api Quix.Accounts
+    end
   end
 end

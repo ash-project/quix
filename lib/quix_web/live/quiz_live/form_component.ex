@@ -21,8 +21,13 @@ defmodule QuixWeb.QuizLive.FormComponent do
           <.input field={@form[:title]} type="text" label="Title" />
         <% end %>
         <%= if @form.source.type == :update do %>
-          <.input field={@form[:questions]} type="select" multiple label="Questions" options={[]} />
           <.input field={@form[:title]} type="text" label="Title" />
+          <.inputs_for :let={question_form} field={@form[:questions]}>
+            <.input field={question_form[:text]} type="text" label="Question" />
+          </.inputs_for>
+          <.button type="button" phx-click="add_question" phx-target={@myself}>
+            <.icon name="hero-plus" class="h-4 w-4" />
+          </.button>
         <% end %>
 
         <:actions>
@@ -42,11 +47,17 @@ defmodule QuixWeb.QuizLive.FormComponent do
   end
 
   @impl true
+  def handle_event("add_question", _, socket) do
+    {:noreply, assign(socket, form: AshPhoenix.Form.add_form(socket.assigns.form, [:questions]))}
+  end
+
   def handle_event("validate", %{"quiz" => quiz_params}, socket) do
     {:noreply, assign(socket, form: AshPhoenix.Form.validate(socket.assigns.form, quiz_params))}
   end
 
   def handle_event("save", %{"quiz" => quiz_params}, socket) do
+    IO.inspect(socket.assigns.form)
+
     case AshPhoenix.Form.submit(socket.assigns.form, params: quiz_params) do
       {:ok, quiz} ->
         notify_parent({:saved, quiz})
@@ -59,6 +70,7 @@ defmodule QuixWeb.QuizLive.FormComponent do
         {:noreply, socket}
 
       {:error, form} ->
+        IO.inspect(AshPhoenix.Form.errors(form, for_path: :all))
         {:noreply, assign(socket, form: form)}
     end
   end
@@ -71,7 +83,10 @@ defmodule QuixWeb.QuizLive.FormComponent do
         AshPhoenix.Form.for_update(quiz, :update,
           api: Quix,
           as: "quiz",
-          actor: socket.assigns.current_user
+          actor: socket.assigns.current_user,
+          forms: [
+            auto?: true
+          ]
         )
       else
         AshPhoenix.Form.for_create(Quix.Quiz, :create,

@@ -72,7 +72,7 @@ defmodule QuixWeb.QuizLive.Index do
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
     |> assign(:page_title, "Edit Quiz")
-    |> assign(:quiz, Quix.Quiz.by_id!(id, actor: socket.assigns.current_user))
+    |> assign(:quiz, Quix.Quiz.by_id!(id, actor: socket.assigns.current_user, load: :questions))
   end
 
   defp apply_action(socket, :new, _params) do
