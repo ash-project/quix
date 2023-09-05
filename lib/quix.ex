@@ -1,5 +1,10 @@
 defmodule Quix do
-  use Ash.Api
+  use Ash.Api,
+    extensions: [AshAdmin.Api]
+
+  admin do
+    show?(true)
+  end
 
   resources do
     resource Quix.Quiz

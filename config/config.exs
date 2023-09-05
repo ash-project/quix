@@ -11,7 +11,7 @@ config :quix,
   ecto_repos: [Quix.Repo]
 
 config :quix,
-  ash_apis: [Quix]
+  ash_apis: [Quix, Quix.Accounts]
 
 # Configures the endpoint
 config :quix, QuixWeb.Endpoint,
@@ -24,6 +24,14 @@ config :quix, QuixWeb.Endpoint,
   live_view: [signing_salt: "W+l3nlmI"]
 
 config :ash, :use_all_identities_in_manage_relationship?, false
+
+config :mime, :types, %{
+  "application/vnd.api+json" => ["json"]
+}
+
+config :mime, :extensions, %{
+  "json" => "application/json"
+}
 
 # Configures the mailer
 #
